@@ -14,6 +14,45 @@ create-network:
 generate-cert:
 	@cd nginx && ./create-certs.sh
 
+# Let's Encrypt SSL certificates for suttacentral.ru
+CERTBOT_DOMAIN := suttacentral.ru
+CERTS_DIR := nginx/conf.d/certs
+
+obtain-letsencrypt:
+	@echo "Stopping nginx to free port 80..."
+	-@docker stop sc-nginx
+	@echo "Obtaining Let's Encrypt certificate for $(CERTBOT_DOMAIN)..."
+	@sudo certbot certonly --standalone \
+		-d $(CERTBOT_DOMAIN) \
+		-d www.$(CERTBOT_DOMAIN) \
+		--register-unsafely-without-email \
+		--agree-tos \
+		--non-interactive
+	@echo "Copying certificates..."
+	@sudo cp /etc/letsencrypt/live/$(CERTBOT_DOMAIN)/fullchain.pem $(CERTS_DIR)/server.pem
+	@sudo cp /etc/letsencrypt/live/$(CERTBOT_DOMAIN)/privkey.pem $(CERTS_DIR)/server.key
+	@sudo chown $(USER):$(USER) $(CERTS_DIR)/server.pem $(CERTS_DIR)/server.key
+	@chmod 644 $(CERTS_DIR)/server.pem
+	@chmod 600 $(CERTS_DIR)/server.key
+	@echo "Starting nginx..."
+	@docker start sc-nginx
+	@echo "\033[1;32mLet's Encrypt certificate installed successfully!\033[0m"
+
+renew-letsencrypt:
+	@echo "Stopping nginx to free port 80..."
+	-@docker stop sc-nginx
+	@echo "Renewing Let's Encrypt certificates..."
+	@sudo certbot renew
+	@echo "Copying renewed certificates..."
+	@sudo cp /etc/letsencrypt/live/$(CERTBOT_DOMAIN)/fullchain.pem $(CERTS_DIR)/server.pem
+	@sudo cp /etc/letsencrypt/live/$(CERTBOT_DOMAIN)/privkey.pem $(CERTS_DIR)/server.key
+	@sudo chown $(USER):$(USER) $(CERTS_DIR)/server.pem $(CERTS_DIR)/server.key
+	@chmod 644 $(CERTS_DIR)/server.pem
+	@chmod 600 $(CERTS_DIR)/server.key
+	@echo "Starting nginx..."
+	@docker start sc-nginx
+	@echo "\033[1;32mCertificates renewed successfully!\033[0m"
+
 
 
 SERVICES := sc-flask sc-nginx sc-swagger sc-arangodb sc-frontend
