@@ -24,7 +24,6 @@ obtain-letsencrypt:
 	@echo "Obtaining Let's Encrypt certificate for $(CERTBOT_DOMAIN)..."
 	@sudo certbot certonly --standalone \
 		-d $(CERTBOT_DOMAIN) \
-		-d www.$(CERTBOT_DOMAIN) \
 		--register-unsafely-without-email \
 		--agree-tos \
 		--non-interactive
