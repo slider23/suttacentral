@@ -69,6 +69,9 @@ test-load-data:
 test-api:
 	docker compose run --entrypoint "python /opt/sc/api-tester/run-tests.py" sc-api-tester
 
+test-ci:
+	@docker exec -t sc-flask uv run pytest -s --ignore tests/api/ tests/
+
 migrate:
 	@docker exec -t sc-flask bash -c "uv run python -m sc_flask.manage migrate"
 

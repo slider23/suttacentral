@@ -1,4 +1,5 @@
 import logging
+import os
 from collections.abc import Mapping, Iterator
 from pathlib import Path
 
@@ -107,6 +108,7 @@ def database():
         yield db
 
 
+@pytest.mark.skipif(os.getenv("CI") != "true", reason="Requires collection to be present.")
 class TestAuthors:
     @pytest.fixture
     def author_edition_doc(self):
@@ -167,6 +169,7 @@ class TestAuthors:
         assert len(model) == 1
 
 
+@pytest.mark.skipif(os.getenv("CI") != "true", reason="Requires collection to be present.")
 class TestHtmlTextWriter:
     @pytest.fixture
     def html_text_doc(self):
@@ -250,6 +253,7 @@ class TestHtmlTextWriter:
         assert doc['name'] == 'The Root of All Things'
 
 
+@pytest.mark.skipif(os.getenv("CI") != "true", reason="Requires collection to be present.")
 class TestLoadUnsegmentedTexts:
     @pytest.fixture
     def sc_data_dir(self, tmp_path) -> Path:
@@ -376,6 +380,7 @@ class TestLanguageDirectories:
         assert language_directories(html_dir=tmp_path) == [directory]
 
 
+@pytest.mark.skipif(os.getenv("CI") != "true", reason="Requires collection to be present.")
 class TestHtmlFiles:
     @pytest.fixture
     def language_directory(self, tmp_path):

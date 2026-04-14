@@ -2,9 +2,9 @@ name: SuttaCentral CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, reintegrate_tests_with_ci ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, reintegrate_tests_with_ci ]
 
 jobs:
   SuttaCentral-CI:
@@ -30,5 +30,5 @@ jobs:
         run: |
           docker ps
 
-      # - name: Test
-      #   run: make test
+      - name: Test
+        run: make test-ci

@@ -1,3 +1,7 @@
+import os
+
+import pytest
+
 import common.utils
 from common import arangodb
 from data_loader.change_tracker import whoami, who_is_calling, function_source, ChangeTracker
@@ -38,6 +42,7 @@ def test_function_source():
 
     assert function_source(bar) == '    def bar():\n        pass\n'
 
+@pytest.mark.skipif(os.getenv("CI") != "true", reason="Requires collection to be present.")
 class TestChangeTracker:
     def test_new_file_is_changed(self, tmp_path):
         app_ = common.utils.current_app()
