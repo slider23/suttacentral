@@ -2,9 +2,9 @@ name: SuttaCentral CI
 
 on:
   push:
-    branches: [ main, reintegrate_tests_with_ci ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, reintegrate_tests_with_ci ]
+    branches: [ main ]
 
 jobs:
   SuttaCentral-CI:
