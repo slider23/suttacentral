@@ -1,7 +1,3 @@
-import os
-
-import pytest
-
 import common.utils
 from common import arangodb
 from data_loader.change_tracker import whoami, who_is_calling, function_source, ChangeTracker

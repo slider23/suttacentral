@@ -1,5 +1,4 @@
 import logging
-import os
 from collections.abc import Mapping, Iterator
 from pathlib import Path
 
@@ -13,7 +12,7 @@ from data_loader.unsegmented import (
     Authors, HtmlTextWriter, AuthorDetails, documents, create_document, Document,
     FileDetails, log_missing_details, TextDetails, extract_html_details, find_title_tag, load_unsegmented_texts,
     language_directories, html_files, extract_file_details
- )
+)
 
 
 class FakeAuthors(Mapping[str, AuthorDetails]):
