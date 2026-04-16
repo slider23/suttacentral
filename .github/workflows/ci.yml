@@ -31,4 +31,4 @@ jobs:
           docker ps
 
       - name: Test
-        run: make test-ci
+        run: make test-server-ci
