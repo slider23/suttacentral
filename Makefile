@@ -51,8 +51,6 @@ reload-uwsgi:
 
 
 # Tests.
-prepare-test-load-data:
-	@docker exec -t sc-flask uv run scripts/prepare_data_loader_tests.py
 
 # Starts containers so that we are ready to run tests in them.
 prepare-tests:
@@ -61,6 +59,9 @@ prepare-tests:
 	@echo "waiting for all services to fully start"
 	@bash wait_for_flask.sh
 	@make prepare-test-load-data
+
+prepare-test-load-data:
+	@docker exec -t sc-flask uv run scripts/prepare_data_loader_tests.py
 
 # Run tests
 test:
